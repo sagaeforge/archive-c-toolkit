@@ -1,0 +1,52 @@
+ 1 : 0x4a5e870(Alloc), File
+ 2 : 0x4a5dc80(Alloc), LogNode
+ 3 : 0x4a5dc20(Alloc), Manager
+ 4 : 0x4a5dde0(Alloc), Page
+ 5 : 0x4a5dbd0(Alloc), Memory
+ 6 : 0x4a5de80(Alloc), Memory
+ 7 : 0x4a5dee0(Alloc), Memory
+ 8 : 0x4a5df30(Alloc), Memory
+ 9 : 0x4a5df90(Alloc), Memory
+10 : 0x4a5e000(Alloc), Memory
+11 : 0x4a5de80(Free), Memory
+12 : 0x4a5dbd0(Free), Memory
+13 : 0x4a5dc20(Free), Manager
+14 : 0x4a5dee0(Free), Memory
+15 : 0x4a5df30(Free), Memory
+16 : 0x4a5df90(Free), Memory
+17 : 0x4a5e000(Free), Memory
+18 : 0x4a5e710(Alloc), LogNode
+19 : 0x4a5dde0(Free), Page
+20 : 0x4a5dc80(Free), LogNode
+21 : 0x4a5e710(Free), LogNode
+22 : 0x4a5e870(Free), File
+
+0 0 3 0 2 0 6 0 0 
+9 0 0 3 0 5 0 0 1 
+0 0 1 8 0 6 4 0 0 
+0 0 8 1 0 2 9 0 0 
+7 0 0 0 0 0 0 0 8 
+0 0 6 7 0 8 2 0 0 
+0 0 2 6 0 9 5 0 0 
+8 0 0 2 0 3 0 0 9 
+0 0 5 0 1 0 3 0 0 
+
+4 8 3 9 2 1 6 5 7 
+9 6 7 3 4 5 8 2 1 
+2 5 1 8 7 6 4 9 3 
+5 4 8 1 3 2 9 7 6 
+7 2 9 5 6 4 1 3 8 
+1 3 6 7 9 8 2 4 5 
+3 7 2 6 8 9 5 1 4 
+8 1 4 2 5 3 7 6 9 
+6 9 5 4 1 7 3 8 2
+
+483921657, 
+967345821, 
+251876493, 
+548132976, 
+729564138, 
+136798245, 
+372689514, 
+814253769, 
+695417382,
