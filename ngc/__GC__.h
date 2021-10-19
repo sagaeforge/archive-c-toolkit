@@ -1,0 +1,8 @@
+
+#ifndef __NUGUNGA_LIBARY_GARBAGE_COLLECTION_RPIVATE__
+#define __NUGUNGA_LIBARY_GARBAGE_COLLECTION_RPIVATE__
+
+#include "GCDefines.h"
+
+
+#endif
