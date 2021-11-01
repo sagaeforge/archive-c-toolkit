@@ -1,0 +1,1 @@
+/bin/clang-10 -g  -rdynamic CMakeFiles/GC.dir/GCtest.c.o CMakeFiles/GC.dir/GC.c.o CMakeFiles/GC.dir/GCInit.c.o CMakeFiles/GC.dir/Funcs/GCFuncs.c.o CMakeFiles/GC.dir/Memory/GCMemory.c.o CMakeFiles/GC.dir/Memory/GCMemoryPage.c.o  -o GC 
