@@ -30,7 +30,10 @@ target_link_libraries(NugungaUtilities Nugunga_List)
 target_include_directories(NugungaUtilities PUBLIC Nugunga_String)
 target_link_libraries(NugungaUtilities Nugunga_String)
 
+set(RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Out)
+set_target_properties(NugungaUtilities PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/Out)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
+ 
