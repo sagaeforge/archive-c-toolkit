@@ -32,8 +32,6 @@ int main(int argc, char const *argv[]) {
       continue;
   }
 
-  printf("test");
-
   GC_Clean();
   return 0;
 }
