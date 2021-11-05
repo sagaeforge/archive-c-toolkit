@@ -364,7 +364,6 @@ static void FuncNode_Remove(int Index) {
 }
 void GC_Clean() {
   // Funcs 해제
-  MemoryFunc *Func = __Manager__->Funcs;
   int i;
   for (i = __Manager__->UsedMemoryFuncLength; i > 0; i--) {
     FuncNode_Remove(i);

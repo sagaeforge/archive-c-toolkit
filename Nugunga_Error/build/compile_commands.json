@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/nugunga/Project/NugungaUtilities/Nugunga_ERROR/build",
+  "command": "/bin/clang-10   -g   -o CMakeFiles/Nugunga_Error.dir/NError.c.o   -c /home/nugunga/Project/NugungaUtilities/Nugunga_ERROR/NError.c",
+  "file": "/home/nugunga/Project/NugungaUtilities/Nugunga_ERROR/NError.c"
+}
+]

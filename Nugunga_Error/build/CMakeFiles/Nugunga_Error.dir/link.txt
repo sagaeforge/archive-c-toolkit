@@ -1,0 +1,2 @@
+/bin/ar qc libNugunga_Error.a  CMakeFiles/Nugunga_Error.dir/NError.c.o
+/bin/ranlib libNugunga_Error.a

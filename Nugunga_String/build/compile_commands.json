@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/nugunga/Project/NugungaUtilities/String/build",
+  "command": "/bin/clang-10   -g   -o CMakeFiles/String.dir/String.c.o   -c /home/nugunga/Project/NugungaUtilities/String/String.c",
+  "file": "/home/nugunga/Project/NugungaUtilities/String/String.c"
+}
+]
