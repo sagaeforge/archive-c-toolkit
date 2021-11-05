@@ -11,6 +11,11 @@
   생성하고 바로 소멸할 경우 페이지에 쓰레기 값이 들어가 오류를 일으킴.
 */
 
+#define SWAP(DT, TempVarName, A1, A2)                                          \
+  DT TempVarName = A1;                                                         \
+  A1 = A2;                                                                     \
+  A2 = TempVarName
+
 MemoryManager *__Manager__;
 
 int test = 0;
@@ -27,7 +32,7 @@ void *MemoryCreate(unsigned int Length) {
 void MemoryRemove(void **ptr) {
   MemoryIndex index = MemorySearch((*ptr));
   if (!index.MemoryFound) {
-    Warning("잘못된 메모리를 지정했습니다 %p\n", (*ptr));
+    Warning("등록된 메모리가 아닙니다 %p\n", (*ptr));
     return;
   }
   MemoryPageMemoryRemove((*ptr));
@@ -54,7 +59,7 @@ MemoryIndex MemorySearch(void *Ptr) {
 
       if (page->Datas[pc].Value == Ptr) {
         index.MemoryIndex = pc;
-        index.MemoryPageIndex = i;
+        index.MemoryPageIndex = i + 1;
         index.MemoryFound = true;
         return index;
       } else if (page->Datas[pc].Value < Ptr) // 1 2 3 4 5 6
@@ -94,6 +99,20 @@ void MemoryPageMemoryAppend(void *Obj, unsigned int Length) {
   MemoryPage *page = MemoryPageGetEmpty();
   page->Datas[page->UsedMemoryLength].Value = Obj;
   page->Datas[page->UsedMemoryLength].Length = Length;
+
+  if (page->UsedMemoryLength >= 2) {
+    int i;
+    for (i = page->UsedMemoryLength; i >= 0; i--) {
+      if (page->Datas[i].Value < page->Datas[i - 1].Value) {
+        SWAP(void *, temp_value, page->Datas[i - 1].Value,
+             page->Datas[i].Value);
+        SWAP(unsigned, temp_length, page->Datas[i - 1].Length,
+             page->Datas[i].Length);
+      } else
+        break;
+    }
+  }
+
   page->UsedMemoryLength++;
   __Manager__->UsedMemoryLength++;
 }
@@ -107,6 +126,13 @@ void MemoryPageMemoryRemove(void *Obj) {
   MemoryPage *page = MemoryPageGet(index);
   page->Datas[index.MemoryIndex].Value = NULL;
   page->Datas[index.MemoryIndex].Length = 0;
+
+  int i;
+  for (i = index.MemoryIndex; i < page->UsedMemoryLength; i++) {
+    SWAP(void *, temp_value, page->Datas[i].Value, page->Datas[i + 1].Value);
+    SWAP(unsigned int, temp_Length, page->Datas[i].Length,
+         page->Datas[i + 1].Length);
+  }
 
   page->UsedMemoryLength--;
   __Manager__->UsedMemoryLength--;
@@ -265,11 +291,6 @@ void GC_ManagerInit() {
   }
 }
 
-#define SWAP(DT, TempVarName, A1, A2)                                          \
-  DT TempVarName = A1;                                                         \
-  A1 = A2;                                                                     \
-  A2 = TempVarName
-
 void GC_Clear() {
   if (__Manager__->UsedMemoryPageLength == 1)
     return;
@@ -281,6 +302,7 @@ void GC_Clear() {
     MemoryIndex nextIndex = {false, 0, i1 + 1};
     MemoryPage *page = MemoryPageGet(index);
     MemoryPage *next = MemoryPageGet(nextIndex);
+
     // 여유 공간 확인
     int freeSize = MemoryMaxLength - page->UsedMemoryLength;
 
@@ -309,8 +331,8 @@ void GC_Clear() {
     for (i2 = page->UsedMemoryLength; i2 < Buffer->UsedMemoryLength; i2++) {
       SWAP(void *, temp_value, page->Datas[i2].Value,
            Buffer->Datas[i2 - page->UsedMemoryLength].Value);
-      SWAP(unsigned int, temp_Length, next->Datas[i2].Length,
-           next->Datas[i2 - page->UsedMemoryLength].Length);
+      SWAP(unsigned int, temp_Length, page->Datas[i2].Length,
+           Buffer->Datas[i2 - page->UsedMemoryLength].Length);
       page->UsedMemoryLength++;
     }
 

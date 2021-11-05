@@ -2,7 +2,7 @@
 #ifndef __NLB_GARBAGECOLLECTION__
 #define __NLB_GARBAGECOLLECTION__
 
-#define MemoryMaxLength 4
+#define MemoryMaxLength 256
 
 typedef struct GCMemoryPage {
   /* @brief 메모리 페이지에서 사용하는 메모리 수 */
