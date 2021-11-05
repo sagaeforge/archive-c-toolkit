@@ -2,11 +2,11 @@
 #ifndef __NLB_GARBAGECOLLECTION__
 #define __NLB_GARBAGECOLLECTION__
 
-#define MemoryMaxLength 256
+#define MemoryMaxLength 4
 
 typedef struct GCMemoryPage {
   /* @brief 메모리 페이지에서 사용하는 메모리 수 */
-  void *UsedMemoryLength;
+  unsigned int UsedMemoryLength;
   /* @brief 메모리 페이지의 데이터 */
   struct {
     /* @brief 메모리 주소 */
@@ -21,7 +21,7 @@ typedef struct GCMemoryPage {
 typedef struct GCMemoryFunc {
   char *DataType;
   void (*Constructor)(void);
-  void (*Destructor)(void);
+  void (*Destructor)(void **);
   struct GCMemoryFunc *Next;
 } MemoryFunc;
 
@@ -65,28 +65,48 @@ MemoryIndex MemorySearch(void *Ptr);
  * @return void* 찾은 메모리 위치
  */
 void *MemoryGet(MemoryIndex Index);
+unsigned int MemoryGetLength(MemoryIndex Index);
 
 // * 메모리 관리자에 등록과 삭제
 /** @brief 메모리 페이지에 추가
  * @param Obj(void_*) 추가할 메모리 위치
  */
-void MemoryPageMemoryAppend(void *Obj);
+void MemoryPageMemoryAppend(void *Obj, unsigned int Length);
 /** @brief 메모리 페이지에 삭제
  * @param Obj(void *) 삭제할 메모리 위치
  */
 void MemoryPageMemoryRemove(void *Obj);
 
 // * MemoryPage 계열
+/** @brief MemoryPage 생성자
+ */
 void MemoryPageAppend();
-void MemoryPageRemove();
-MemoryPage MemoryPageGet(MemoryIndex Index);
-MemoryPage MemoryPageGetLast();
-MemoryPage MemoryPageGetEmpty();
+/** @brief MemoryPage 소멸자 **/
+void MemoryPageRemove(unsigned int Index);
+/** @brief 특정 메모리 페이지 가져오기
+ *
+ * @param Index 특정 메모리 페이지 위치 정보
+ * @return MemoryPage 메모리 페이지
+ */
+MemoryPage *MemoryPageGet(MemoryIndex Index);
+MemoryPage *MemoryPageGetLast();
+MemoryPage *MemoryPageGetEmpty();
 
 // * 생성자와 소멸자 관련
-MemoryFunc FuncNode_Search(char *DataType);
-void *(*Constructor_Search(char *DataType, unsigned int Length))(void);
-void *(*Constructor_Destructor(char *DataType))(void **);
+MemoryFunc *FuncNode_Search(const char *DataType);
+#define Create(DataType, Casting)                                              \
+  (DataType *)((Casting)Constructor_Search(#DataType))
+void *(*Constructor_Search(char *DataType))(void);
+#define Remove(DataType, Instance)                                             \
+  Constructor_Destructor(#DataType)((void **)&Instance)
+void (*Constructor_Destructor(char *DataType))(void **);
+
+void FuncNode_Append(void (*Contructor)(void), void (*Destructor)(void **),
+                     const char *DataType);
+
+MemoryFunc *FuncNode_Get(unsigned int Index);
+
+#define NoConstructor void *(*)(unsigned int)
 
 // * GC 관련
 void GC_Init();
