@@ -6,8 +6,7 @@
 #pragma pack(push, 1)
 typedef struct String {
   wchar_t *Values;
-  unsigned int IsNone : 1;
-  unsigned int Length : 31;
+  unsigned int Length;
 } String;
 #pragma pack(pop)
 
@@ -30,12 +29,44 @@ void CharectorData_Set(String *Obj, wchar_t *Values, unsigned int Length);
 /*
   기본 문자열의 기능
 
-  1. 연산자(+, -, *, /. ==, !=)
-  2. 특정 문자열이 몇 번 등장하는가? Contains, Count
-  3. Getter, Setter
-  4. 소문자로, 대문자로 Lower Upper
-  5. 존재하지 않는가? 존재하는가? IsNone
-  6. 문자열에 더하기 Join
+  append
+  join
+  subString
+  loop
+  split
+  trim
+  equal
+  comapre
+  contains
+  count
+  get
+  set
+  length
+  toLower
+  toUpper
+  isNone
+  format
+  indexOf
+  lastOfIndex
+  replace
+  replaceAll
+
+  to~
+  valueOf
+
+  IsDigit
+  IsAlpha
+
+  * StringAry
+  append
+  remove
+  get
+
+
+  * StringIO
+  1. 표준 입출력 지원
+  2. 파일 입출력 지원
+
 
  */
 
