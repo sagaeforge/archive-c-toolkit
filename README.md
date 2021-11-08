@@ -11,6 +11,12 @@ LinearDataTypes   : 선형 데이터 타입을 효율적으로 만들 수 있도
 # GarbageCollection 사용법
 GC_Init() => Create => Remove => GC_Clean()
 
+GC_Init() : GC 초기화
+Create : 메모리 할당
+...
+Remove : 메모리 소멸
+GC_Clean() : GC 전체 메모리 삭제
+
 # Operator
 
 # String
