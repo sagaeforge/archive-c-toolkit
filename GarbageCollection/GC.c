@@ -1,5 +1,6 @@
 
 #include "GC.h"
+#include "../Nugunga_Error/NError.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -270,6 +271,8 @@ MemoryFunc *FuncNode_Get(unsigned int Index) {
 }
 
 void GC_Init() {
+  if (__Manager__ == NULL)
+    return;
   // 각종 초기화 함수를 호출
 }
 void GC_ManagerInit() {
@@ -292,6 +295,8 @@ void GC_ManagerInit() {
 }
 
 void GC_Clear() {
+  if (__Manager__ == NULL)
+    return;
   if (__Manager__->UsedMemoryPageLength == 1)
     return;
 
@@ -363,6 +368,8 @@ static void FuncNode_Remove(int Index) {
   __Manager__->UsedMemoryFuncLength--;
 }
 void GC_Clean() {
+  if (__Manager__ == NULL)
+    return;
   // Funcs 해제
   int i;
   for (i = __Manager__->UsedMemoryFuncLength; i > 0; i--) {
