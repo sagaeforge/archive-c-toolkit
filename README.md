@@ -9,6 +9,7 @@ DevelopGuide      : 개발을 하면서 불편한 점을 간단하게 해결하�
 LinearDataTypes   : 선형 데이터 타입을 효율적으로 만들 수 있도록 만든 템플릿 라이브러리
 
 # GarbageCollection 사용법
+루틴
 GC_Init() => Create => Remove => GC_Clean()
 
 
