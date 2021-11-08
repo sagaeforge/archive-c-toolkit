@@ -31,8 +31,9 @@ int main(int argc, char const *argv[]) {
   //   } else
   //     continue;
   // }
+  String a;
 
-  printf("%lu", sizeof(String));
+  printf("%s", type(a));
 
   GC_Clean();
   return 0;
