@@ -5,7 +5,6 @@ include(CTest)
 enable_testing()
 
 add_library(String String.c)
-target_include_directories(String PUBLIC ../../Includes/)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
