@@ -78,7 +78,7 @@
 // [*] [연산자 파트]
 
 // [+ START] 단항 연산자
-// [Public] Operator1(Operator: char *, Caster: 함수포인터, Instance : 변수)
+// [Public] Operator1(Operator: char *, Caster: 함수포인터, Instance: 변수)
 // [Public] Instance 자료형의 단항 연산자 Operator가 등록되어 있다면
 // [Public] 해당 메소드를 호출합니다.
 #define Operator1(Operator, Caster, Instance)
