@@ -13,6 +13,7 @@ int main(int argc, char const *argv[]) {
   int a;
   unsigned int b;
 
+  printf("%s\n", GetType(a));
   printf("%s\n", TypeCompare(a, b) ? "같습니다." : "틀립니다.");
   return 0;
 }
