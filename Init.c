@@ -1,19 +1,14 @@
 
+#include "GarbageCollection.h"
 #include "Operator.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-struct a {
-  bool b;
-};
-
 int main(int argc, char const *argv[]) {
-  struct a A = {20};
 
-  int a;
-  unsigned int b;
+  int a = 23, b = 812241;
+  printf("%d", Operator2(a, "+", b, int (*)(int, int)));
 
-  printf("%s\n", GetType(a));
-  printf("%s\n", TypeCompare(a, b) ? "같습니다." : "틀립니다.");
+  GC_Clean();
   return 0;
 }
