@@ -14,7 +14,7 @@ MemoryManager *__Manager__;
 
 int test = 0;
 
-void *MemoryCreate(unsigned int Length) {
+void *MemoryCreate(Length Length) {
   if (__Manager__ == NULL)
     GC_ManagerInit();
   void *ptr = malloc(Length);
@@ -77,7 +77,7 @@ void *MemoryGet(MemoryIndex Index) {
   MemoryPage *page = MemoryPageGet(Index);
   return page->Datas[Index.MemoryIndex].Value;
 }
-unsigned int MemoryGetLength(MemoryIndex Index) {
+Length MemoryGetLength(MemoryIndex Index) {
   if (Index.MemoryIndex > MemoryMaxLength ||
       Index.MemoryPageIndex > __Manager__->UsedMemoryPageLength)
     return 0;
@@ -85,7 +85,7 @@ unsigned int MemoryGetLength(MemoryIndex Index) {
   MemoryPage *page = MemoryPageGet(Index);
   return page->Datas[Index.MemoryIndex].Length;
 }
-void MemoryPageMemoryAppend(void *Obj, unsigned int Length) {
+void MemoryPageMemoryAppend(void *Obj, Length Length) {
   MemoryIndex index = MemorySearch(Obj);
   if (index.MemoryFound) {
     Warning("등록된 메모리를 등록하려 했습니다. %p\n", Obj);
@@ -151,7 +151,7 @@ void MemoryPageAppend() {
     NewPage->Datas[i].Value = NULL;
   }
 }
-void MemoryPageRemove(unsigned int Index) {
+void MemoryPageRemove(Index Index) {
   // TODO 조건 검사
   MemoryIndex index = {0, 0, Index};
   MemoryIndex lastIndex = {0, 0, Index - 1};

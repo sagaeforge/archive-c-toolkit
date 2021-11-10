@@ -2,20 +2,22 @@
 #ifndef __NLB_GARBAGE_COLLECTION__
 #define __NLB_GARBAGE_COLLECTION__
 
+#include "DataTypes.h"
+
 #define MemoryMaxLength 256
 
 typedef struct GCMemoryPage {
   unsigned int UsedMemoryLength;
   struct {
     void *Value;
-    unsigned int Length;
+    Length Length;
   } Datas[MemoryMaxLength];
   struct GCMemoryPage *Next;
 } MemoryPage;
 
 typedef struct GCMemoryManager {
-  unsigned int UsedMemoryLength;
-  unsigned int UsedMemoryPageLength;
+  Length UsedMemoryLength;
+  Length UsedMemoryPageLength;
 
   MemoryPage Pages;
 } MemoryManager;
@@ -34,7 +36,7 @@ extern MemoryManager *__Manager__;
  * @param Length(unsigned_int) 생성할 메모리 크기
  * @return void* 생성된 메모리
  */
-void *MemoryCreate(unsigned int Length);
+void *MemoryCreate(Length Length);
 /** @brief 메모리 소멸자
  * @param ptr(void_**) 소멸할 메모리 위치
  */
@@ -51,13 +53,13 @@ MemoryIndex MemorySearch(void *Ptr);
  * @return void* 찾은 메모리 위치
  */
 void *MemoryGet(MemoryIndex Index);
-unsigned int MemoryGetLength(MemoryIndex Index);
+Length MemoryGetLength(MemoryIndex Index);
 
 // * 메모리 관리자에 등록과 삭제
 /** @brief 메모리 페이지에 추가
  * @param Obj(void_*) 추가할 메모리 위치
  */
-void MemoryPageMemoryAppend(void *Obj, unsigned int Length);
+void MemoryPageMemoryAppend(void *Obj, Length Length);
 /** @brief 메모리 페이지에 삭제
  * @param Obj(void *) 삭제할 메모리 위치
  */
@@ -68,7 +70,7 @@ void MemoryPageMemoryRemove(void *Obj);
  */
 void MemoryPageAppend();
 /** @brief MemoryPage 소멸자 **/
-void MemoryPageRemove(unsigned int Index);
+void MemoryPageRemove(Index Index);
 /** @brief 특정 메모리 페이지 가져오기
  *
  * @param Index 특정 메모리 페이지 위치 정보
