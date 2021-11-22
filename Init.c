@@ -10,10 +10,16 @@ void Init() { setlocale(LC_ALL, ""); }
 int main(int argc, char const *argv[]) {
   Init();
 
-  String *str = Create(String, StringConstructorCaster)(L"가나다");
+  String *str1 = Create(String, StringConstructorCaster)(L"ABCDEF1");
+  String *str2 = Create(String, StringConstructorCaster)(L"ABCDEF1");
 
-  printf("%S\n", str->Values);
-  printf("%u\n", str->Length);
+  printf("%S\n", str1->Values);
+  printf("%u\n", str1->Length);
+  
+  printf("%d\n", Operator2(str1, "==", str2, StrStrToInt));
+
+  
+
   GC_Clean();
   return 0;
 }

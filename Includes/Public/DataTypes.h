@@ -54,6 +54,9 @@ typedef unsigned int Index;
   /* 시스템 확장 자료형 끝 */                                                  \
   /* 사용자 정의 자료형 */                                                     \
   String                : "String",                                            \
+  String *              : "String *",                                          \
+  StringAry             : "StringAry",                                         \
+  StringAry *           : "StringAry *",                                       \
   /* 사용자 정의 자료형 끝 */                                                  \
   default: "unknown" )
 

@@ -1,7 +1,12 @@
 
+#include <stdbool.h>
 #include "String.h"
 #include "Exception.h"
-#include "Operator.h"
+
+static wchar_t *_StringValueCreate(Length length)
+{
+  return Create(wchar_t, NoConstructor)(sizeof(wchar_t) * length + 1);
+}
 
 static Length _String_Length(wchar_t *Datas) {
   int i = 0;
@@ -14,8 +19,8 @@ static void _String_Setting(String *obj, wchar_t *Datas) {
   obj->Length = _String_Length(Datas);
   if (obj->Values != NULL)
     Remove(wchar_t, obj->Values);
-  wchar_t *temp =
-      Create(wchar_t, NoConstructor)(sizeof(wchar_t) * (obj->Length + 1));
+  wchar_t *temp = _StringValueCreate(obj->Length);
+
   if (temp == NULL) {
     Warning("값을 설정하지 못했습니다.");
     return;
@@ -46,4 +51,46 @@ void String_Destructor(String **Obj) {
 
   if ((*Obj) != NULL)
     (*Obj) = NULL;
+}
+
+String *String_Join(String *Obj1, String *Obj2)
+{
+  //TODO 해야함
+  printf("Join");
+  return NULL;
+}
+void String_Append (String *Obj1, String *Obj2)
+{
+  //TODO 해야함
+  return;
+}
+String *String_SubString (String *Obj1, String *Obj2)
+{
+  //TODO 해야함
+  printf("subString");
+  return NULL;
+}
+String *String_Loop (String *Obj1, Length Length)
+{
+  //TODO 해야함
+  printf("Loop");
+  return NULL;
+}
+StringAry *String_Split (String *Obj1, String *Obj2)
+{
+  //TODO 해야함
+  printf("Split");
+  return NULL;
+}
+
+bool String_Compare(String *Obj1, String *Obj2)
+{
+  if(Obj1->Length != Obj2->Length)
+    return false;
+  
+  int i;
+  for (size_t i = 0; i < Obj1->Length; i++)
+    if(Obj1->Values[i] != Obj2->Values[i])
+      return false;
+  return true;
 }
