@@ -28,7 +28,6 @@ String *String_Constructor(wchar_t *Datas);
 
 void String_Destructor(String **Obj);
 
-
 #define StrStrToStr String* (*)(String *, String *)
 #define StrLenToStr String* (*)(String *, Length)
 #define StrStrToSry StringAry* (*)(String *, String *)
@@ -68,14 +67,15 @@ String   *String_ToString_ld    (long       Value);
 String   *String_ToString_lld   (long long  Value);
 String   *String_ToString_f     (float      Value);
 String   *String_ToString_lf    (double     Value);
-String   *String_ToString_Chs   (char      *Value);
+String   *String_ToString_chs   (char      *Value);
+#define String_ValueOf(DataType, Instance) String_ValueOf_##DataType(Instance)
 bool      String_ValueOf_bool   (String *str);
 long      String_ValueOf_ld     (String *str);
 long long String_ValueOf_lld    (String *str);
 float     String_ValueOf_f      (String *str);
 double    String_ValueOf_lf     (String *str);
-char *    String_ValueOf_Chs    (String *str);
-wchar_t * String_ValueOf_Wcs    (String *str);
+char *    String_ValueOf_chs    (String *str);
+wchar_t * String_ValueOf_wcs    (String *str);
 
 #endif
 #endif

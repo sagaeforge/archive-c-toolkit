@@ -15,74 +15,15 @@ typedef struct GCMemoryPage {
   struct GCMemoryPage *Next;
 } MemoryPage;
 
-typedef struct GCMemoryManager {
-  Length UsedMemoryLength;
-  Length UsedMemoryPageLength;
-
-  MemoryPage Pages;
-} MemoryManager;
-
-typedef struct GCMemoryIndex {
-  unsigned int MemoryFound;
-  unsigned int MemoryIndex;
-  unsigned int MemoryPageIndex;
-} MemoryIndex;
-
-extern MemoryManager *__Manager__;
-
-// * Memory 계열
-// * 할당과 제거
-/** @brief 메모리 생성자
- * @param Length(unsigned_int) 생성할 메모리 크기
- * @return void* 생성된 메모리
- */
 void *MemoryCreate(Length Length);
-/** @brief 메모리 소멸자
- * @param ptr(void_**) 소멸할 메모리 위치
- */
 void MemoryRemove(void **ptr);
 
-// * 탐색과 가져오기
-/** @brief 메모리 검색자
- * @param Ptr(void_*) 검색할 메모리
- * @return MemoryIndex 탐색된 정보
- */
-MemoryIndex MemorySearch(void *Ptr);
-/** @brief 메모리 Getter
- * @param Index(MemoryIndex) 해당하는 메모리 인덱서
- * @return void* 찾은 메모리 위치
- */
-void *MemoryGet(MemoryIndex Index);
-Length MemoryGetLength(MemoryIndex Index);
+void MemorySet(void *Src, int value, Length WordSize, Length Length);
+void MemoryCopy(void *Src, void *Data, Length Length);
+void MemoryMove(void *Src, void *Data, Length Length);
+void MemoryCompare(void *Obj1, void *Obj2, Length Length);
+void MemoryLength(void *Obj);
 
-// * 메모리 관리자에 등록과 삭제
-/** @brief 메모리 페이지에 추가
- * @param Obj(void_*) 추가할 메모리 위치
- */
-void MemoryPageMemoryAppend(void *Obj, Length Length);
-/** @brief 메모리 페이지에 삭제
- * @param Obj(void *) 삭제할 메모리 위치
- */
-void MemoryPageMemoryRemove(void *Obj);
-
-// * MemoryPage 계열
-/** @brief MemoryPage 생성자
- */
-void MemoryPageAppend();
-/** @brief MemoryPage 소멸자 **/
-void MemoryPageRemove(Index Index);
-/** @brief 특정 메모리 페이지 가져오기
- *
- * @param Index 특정 메모리 페이지 위치 정보
- * @return MemoryPage 메모리 페이지
- */
-MemoryPage *MemoryPageGet(MemoryIndex Index);
-MemoryPage *MemoryPageGetLast();
-MemoryPage *MemoryPageGetEmpty();
-
-// * GC 관련
-void GC_Init();
-void GC_ManagerInit();
 void GC_Clear();
 void GC_Clean();
 #endif

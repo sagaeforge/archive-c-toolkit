@@ -41,6 +41,8 @@ String *String_Constructor(wchar_t *Datas) {
   }
 
   String *obj = (String *)ptr;
+  for (size_t i = 0; i <= _String_Length(Datas); i++)
+    obj->Values[i] = L'\0';
   _String_Setting(obj, Datas);
   return obj;
 }
