@@ -1,2 +1,0 @@
-/bin/ar qc libNugungaModule.a  CMakeFiles/NugungaModule.dir/Sources/GarbageCollection/Iterator/Iterator_GC.c.o CMakeFiles/NugungaModule.dir/Sources/GarbageCollection/Iterator/Iterator_Page.c.o
-/bin/ranlib libNugungaModule.a
