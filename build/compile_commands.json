@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/nugunga/Project/NugungaModule/build",
+  "command": "/bin/clang-10  -I/home/nugunga/Project/NugungaModule/Includes/Public -I/home/nugunga/Project/NugungaModule/Includes/Private  -g   -o CMakeFiles/NugungaModule.dir/Sources/GarbageCollection/Iterator/Iterator_GC.c.o   -c /home/nugunga/Project/NugungaModule/Sources/GarbageCollection/Iterator/Iterator_GC.c",
+  "file": "/home/nugunga/Project/NugungaModule/Sources/GarbageCollection/Iterator/Iterator_GC.c"
+},
+{
+  "directory": "/home/nugunga/Project/NugungaModule/build",
+  "command": "/bin/clang-10  -I/home/nugunga/Project/NugungaModule/Includes/Public -I/home/nugunga/Project/NugungaModule/Includes/Private  -g   -o CMakeFiles/NugungaModule.dir/Sources/GarbageCollection/Iterator/Iterator_Page.c.o   -c /home/nugunga/Project/NugungaModule/Sources/GarbageCollection/Iterator/Iterator_Page.c",
+  "file": "/home/nugunga/Project/NugungaModule/Sources/GarbageCollection/Iterator/Iterator_Page.c"
+}
+]
