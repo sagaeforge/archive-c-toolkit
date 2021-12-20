@@ -32,8 +32,4 @@
   };                                                                           \
   struct __ActionChain_##Name Name;
 
-// typedef struct Delegate_Name {
-//   Ret (*Funcs)(...)
-// } Name;
-
 #endif
