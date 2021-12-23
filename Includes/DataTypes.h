@@ -88,4 +88,6 @@ typedef unsigned int Index;
 
 // [+ END] 자료형 끝
 
+#define LengthCalc(DataType, Count) (sizeof(DataType) * Count)
+
 #endif

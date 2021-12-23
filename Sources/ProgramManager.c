@@ -1,5 +1,6 @@
 
 #include "ProgramManager.h"
+#include "Exception.h"
 #include "GarbageCollection.h"
 #include <stdlib.h>
 
@@ -12,6 +13,7 @@ struct ProgramManager Manager;
       printf("ERR > NODE 생성 실패");                                          \
       return;                                                                  \
     }                                                                          \
+    ptr->Next = NULL;                                                          \
     FuncChainNode *Pos = Manager.name.Nodes;                                   \
     if (Pos == NULL)                                                           \
       Manager.name.Nodes = Pos = ptr;                                          \
@@ -27,9 +29,7 @@ struct ProgramManager Manager;
   static void name##_RemoveListener(FP_Func Method) {                          \
     FuncChainNode *Pos = Manager.name.Nodes;                                   \
     FuncChainNode *Last = Manager.name.Nodes;                                  \
-    if (Pos == NULL)                                                           \
-      return;                                                                  \
-    while (Pos->Next != NULL) {                                                \
+    while (Pos != NULL) {                                                      \
       if (Pos->Method == Method) {                                             \
         if (Pos == Manager.name.Nodes) {                                       \
           Manager.name.Nodes = Pos->Next;                                      \
@@ -39,6 +39,7 @@ struct ProgramManager Manager;
         Pos->Method = NULL;                                                    \
         Pos->Next = NULL;                                                      \
         free(Pos);                                                             \
+        break;                                                                 \
       }                                                                        \
       Last = Pos;                                                              \
       Pos = Pos->Next;                                                         \
@@ -50,21 +51,24 @@ struct ProgramManager Manager;
     FuncChainNode *Pos = Manager.name.Nodes;                                   \
     if (Pos == NULL)                                                           \
       return;                                                                  \
-    while (Pos->Next == NULL) {                                                \
+    while (Pos->Next != NULL) {                                                \
       length++;                                                                \
       Pos = Pos->Next;                                                         \
     }                                                                          \
-    FuncChainNode **Ary =                                                      \
-        (FuncChainNode **)malloc(sizeof(FuncChainNode) * length);              \
+    void *tempAry = malloc(sizeof(FuncChainNode) * length);                    \
+    if (tempAry == NULL) {                                                     \
+      Error("버퍼공간을 확보하지 못했습니다.");                                \
+    }                                                                          \
+    FuncChainNode **Ary = (FuncChainNode **)tempAry;                           \
     Pos = Manager.name.Nodes;                                                  \
     int i = 0;                                                                 \
-    while (Pos->Next == NULL) {                                                \
+    while (Pos != NULL) {                                                      \
       Ary[i++] = Pos;                                                          \
       Pos = Pos->Next;                                                         \
     }                                                                          \
     for (i = 0; i < length; i++)                                               \
       free(Ary[i]);                                                            \
-    free(Ary);                                                                 \
+    free(tempAry);                                                             \
   }
 #define Generator_Chain_Invoke(name)                                           \
   static void name##_Invoke() {                                                \
@@ -115,22 +119,22 @@ static void PrograManager_ProgramStart() {
 void ProgramManager_Init() {
   // clang-format off
   Manager.Awake.AddListener       = Awake_AddListener;
-  Manager.Awake.RemoveListener    = Awake_RemoveAllListener;
+  Manager.Awake.RemoveListener    = Awake_RemoveListener;
   Manager.Awake.RemoveAllListener = Awake_RemoveAllListener;
   Manager.Awake.Invoke            = Awake_Invoke;
 
   Manager.Init.AddListener        = Init_AddListener;
-  Manager.Init.RemoveListener     = Init_RemoveAllListener;
+  Manager.Init.RemoveListener     = Init_RemoveListener;
   Manager.Init.RemoveAllListener  = Init_RemoveAllListener;
   Manager.Init.Invoke             = Init_Invoke;
 
   Manager.Start.AddListener       = Start_AddListener;
-  Manager.Start.RemoveListener    = Start_RemoveAllListener;
+  Manager.Start.RemoveListener    = Start_RemoveListener;
   Manager.Start.RemoveAllListener = Start_RemoveAllListener;
   Manager.Start.Invoke            = Start_Invoke;
   
   Manager.Quit.AddListener        = Quit_AddListener;
-  Manager.Quit.RemoveListener     = Quit_RemoveAllListener;
+  Manager.Quit.RemoveListener     = Quit_RemoveListener;
   Manager.Quit.RemoveAllListener  = Quit_RemoveAllListener;
   Manager.Quit.Invoke             = Quit_Invoke;
   // clang-format on
@@ -142,6 +146,7 @@ void ProgramManager_Init() {
   Manager.GarbageCollection.Method.MemoryCopy = MemoryCopy;
   Manager.GarbageCollection.Method.MemoryLength = MemoryLength;
   Manager.GarbageCollection.Method.MemoryMove = MemoryMove;
+  Manager.GarbageCollection.Method.MemorySwap = MemorySwap;
 
   Manager.Method.ProgramStart = PrograManager_ProgramStart;
   Manager.Method.ProgramQuit = ProgramManager_ProgramQuit;

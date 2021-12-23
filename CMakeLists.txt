@@ -8,7 +8,7 @@ add_executable(
   ProgramManager
   Sources/Delegate.c
   Sources/ProgramManager.c
-  Sources/Memory.c
+  Sources/GarbageCollection.c
   Main.c
 )
 
