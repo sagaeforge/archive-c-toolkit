@@ -34,8 +34,8 @@ int main(int argc, char const *argv[]) {
   wchar_t *test = (wchar_t *)malloc(sizeof(wchar_t) * 10);
   if (test == NULL)
     return 0;
-  Manager.GarbageCollection.Method.MemorySet(test, L'가', 4, 10);
-  // test[9] = '\0';
+  Manager.GarbageCollection.Method.MemorySet(test, L'가', 4, 9);
+  test[9] = '\0';
   printf("%S", test);
 
   free(test);

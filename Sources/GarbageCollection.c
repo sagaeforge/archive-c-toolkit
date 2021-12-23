@@ -25,11 +25,13 @@
   [*] 조건 확인에 대한 부분
   [+] MemoryRemove - 메모리를 GC에서 할당했는가?
   [+] MemorySet - 메모리를 GC에서 할당 했는가?
+  [+]           - 세팅할 크기가 Src의 크기보다 크다면
   [+] MemorySwap  - 메모리를 GC에서 할당 했는가?
-  [+]             - 메모리의 크기가 비슷한가?
+  [+]             - 스왑할 메모리의 크기가 Src와 Data보다 크다면?
   [+] MemoryCopy, MemoryMove  - 메모리를 GC에서 할당 했는가?
-  [+]                         - 메모리의 크기가 비슷한가?
+  [+]                         - 스왑할 메모리의 크기가 Src와 Data보다 크다면?
   [+] MemoryCompare - 메모리를 GC에서 할당 했는가?
+  [+]               - 검사할 메모리 크기가 할당한 크기보다 크다면
   [+] MemoryLength - 메모리를 GC에서 할당 했는가?
 
   [*] 추후 발표후에 추가 가능 기능
@@ -131,8 +133,8 @@ void MemoryMove(void *Src, void *Data, Length Length) {
 bool MemoryCompare(void *Obj1, void *Obj2, Length Length) {
   // TODO 조건 확인
 
-  char *a = (char *)Src;
-  char *b = (char *)Data;
+  char *a = (char *)Obj1;
+  char *b = (char *)Obj2;
   int i = 0;
   while (i < Length) {
     if (*a != *b)
