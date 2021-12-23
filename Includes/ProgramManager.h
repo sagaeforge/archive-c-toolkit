@@ -60,8 +60,8 @@ struct ProgramManager {
       void  (*MemorySet)     (void *, int, Length, Length);
       void  (*MemoryCopy)    (void *, void *, Length);
       void  (*MemoryMove)    (void *, void *, Length);
-      void  (*MemoryCompare) (void *, void *, Length);
-      void  (*MemoryLength)  (void *);
+      bool  (*MemoryCompare) (void *, void *, Length);
+      Length  (*MemoryLength)  (void *);
       // clang-format on
     } Method;
 

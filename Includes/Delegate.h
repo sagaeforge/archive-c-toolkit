@@ -62,12 +62,12 @@
  * * 반환 타입이 없으며 매개 변수도 존재하지 않는 경우
  */
 typedef void (*FP_Func)();
-struct __FuncChainNode {
+typedef struct __FuncChainNode {
   FP_Func Method;
   struct __FuncChainNode *Next;
-};
+} FuncChainNode;
 typedef struct __FuncChain {
-  struct __FuncChainNode *Nodes;
+  FuncChainNode *Nodes;
   void (*AddListener)(struct __FuncChain *, FP_Func);
   void (*RemoveListener)(struct __FuncChain *, FP_Func);
   void (*RemoveAllListener)(struct __FuncChain *);

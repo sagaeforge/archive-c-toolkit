@@ -1,6 +1,8 @@
 #ifndef __DATATYPES__
 #define __DATATYPES__
 
+#include <stdbool.h>
+
 typedef unsigned int Length;
 typedef unsigned int Index;
 

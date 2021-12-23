@@ -4,14 +4,13 @@
 #include <stdlib.h>
 
 static void AddListener(FuncChain *Chain, FP_Func Method) {
-  struct __FuncChainNode *ptr =
-      (struct __FuncChainNode *)malloc(sizeof(struct __FuncChainNode));
+  FuncChainNode *ptr = (FuncChainNode *)malloc(sizeof(FuncChainNode));
   if (ptr == NULL) {
     printf("ERR > NODE 생성 실패");
     return;
   }
 
-  struct __FuncChainNode *Pos = Chain->Nodes;
+  FuncChainNode *Pos = Chain->Nodes;
   if (Pos == NULL)
     Chain->Nodes = Pos = ptr;
   else {
@@ -23,8 +22,8 @@ static void AddListener(FuncChain *Chain, FP_Func Method) {
   Pos->Method = Method;
 }
 static void RemoveListener(FuncChain *Chain, FP_Func Method) {
-  struct __FuncChainNode *Pos = Chain->Nodes;
-  struct __FuncChainNode *Last = Chain->Nodes;
+  FuncChainNode *Pos = Chain->Nodes;
+  FuncChainNode *Last = Chain->Nodes;
   if (Pos == NULL)
     return;
 
@@ -46,7 +45,7 @@ static void RemoveListener(FuncChain *Chain, FP_Func Method) {
 static void RemoveAllListener(FuncChain *Chain) {
   // 노드의 계수 구하기
   int length = 1;
-  struct __FuncChainNode *Pos = Chain->Nodes;
+  FuncChainNode *Pos = Chain->Nodes;
   if (Pos == NULL)
     return;
 
@@ -55,8 +54,8 @@ static void RemoveAllListener(FuncChain *Chain) {
     Pos = Pos->Next;
   }
 
-  struct __FuncChainNode **Ary = (struct __FuncChainNode **)malloc(
-      sizeof(struct __FuncChainNode) * length);
+  FuncChainNode **Ary =
+      (FuncChainNode **)malloc(sizeof(FuncChainNode) * length);
   Pos = Chain->Nodes;
   int i = 0;
   while (Pos->Next == NULL) {
@@ -68,8 +67,8 @@ static void RemoveAllListener(FuncChain *Chain) {
 
   free(Ary);
 }
-static void Invoke(struct __FuncChain *Chain) {
-  struct __FuncChainNode *Pos = Chain->Nodes;
+static void Invoke(FuncChain *Chain) {
+  FuncChainNode *Pos = Chain->Nodes;
   if (Pos == NULL)
     return;
 
