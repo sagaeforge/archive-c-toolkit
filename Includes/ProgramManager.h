@@ -69,6 +69,7 @@ struct ProgramManager {
   /** @brief 종료 단계 */
   struct {
     // clang-format off
+    void (*ProgramStart) ();
     void (*ProgramQuit)  ();
     // clang-format on
   } Method;
