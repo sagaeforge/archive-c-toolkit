@@ -8,12 +8,8 @@ void test2() { printf("test2\n"); }
 void test3() { printf("test3\n"); }
 
 int main(int argc, char const *argv[]) {
-  FuncChain_Setting(&Init);
-  Init.AddListener(&Init, test1);
-  Init.AddListener(&Init, test2);
-  Init.AddListener(&Init, test3);
-  Init.RemoveListener(&Init, test);
-  Init.Invoke(&Init);
+  Length value;
+  printf("%s", Type(value));
 
   // return 0;
 }

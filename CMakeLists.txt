@@ -6,9 +6,12 @@ enable_testing()
 
 add_executable(
   ProgramManager
+  Sources/Delegate.c
+  Sources/ProgramManager.c
   Main.c
-  Delegate.c
-  )
+)
+
+target_include_directories(ProgramManager PUBLIC Includes/)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

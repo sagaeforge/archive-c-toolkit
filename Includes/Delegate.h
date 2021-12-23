@@ -11,11 +11,12 @@
  */
 #define Define_Delegate(Ret, Name, args...)                                    \
   typedef Ret (*Delegate_##Name)(args);                                        \
+  struct __DelegateChainNode_##Name {                                          \
+    Delegate_##Name Method;                                                    \
+    struct __DelegateChainNode_##Name *Next;                                   \
+  };                                                                           \
   typedef struct __DelegateChain_##Name {                                      \
-    struct __DelegateChainNode_##Name {                                        \
-      Delegate_##Name Method;                                                  \
-      struct __DelegateChainNode_##Name *Next;                                 \
-    } * Nodes;                                                                 \
+    __DelegateChainNode_##Name *Nodes;                                         \
     void (*AddListener)(struct __DelegateChain_##Name *, Delegate_##Name);     \
     void (*RemoveListener)(struct __DelegateChain_##Name *, Delegate_##Name);  \
     void (*RemoveAllListener)(struct __DelegateChain_##Name *);                \
@@ -36,11 +37,12 @@
  */
 #define Define_Action(Name, args...)                                           \
   typedef void (*Action_##Name)(args);                                         \
+  struct __ActionChainNode_##Name {                                            \
+    Action_##Name Method;                                                      \
+    struct __ActionChainNode_##Name *Next;                                     \
+  };                                                                           \
   typedef struct __ActionChain_##Name {                                        \
-    struct __ActionChainNode_##Name {                                          \
-      Action_##Name Method;                                                    \
-      struct __ActionChainNode_##Name *Next;                                   \
-    } * Nodes;                                                                 \
+    __ActionChainNode_##Name *Nodes;                                           \
     void (*AddListener)(struct __ActionChain_##Name *, Action_##Name);         \
     void (*RemoveListener)(struct __ActionChain_##Name *, Action_##Name);      \
     void (*RemoveAllListener)(struct __ActionChain_##Name *);                  \
@@ -60,16 +62,18 @@
  * * 반환 타입이 없으며 매개 변수도 존재하지 않는 경우
  */
 typedef void (*FP_Func)();
+struct __FuncChainNode {
+  FP_Func Method;
+  struct __FuncChainNode *Next;
+};
 typedef struct __FuncChain {
-  struct __FuncChainNode {
-    FP_Func Method;
-    struct __FuncChainNode *Next;
-  } * Nodes;
+  struct __FuncChainNode *Nodes;
   void (*AddListener)(struct __FuncChain *, FP_Func);
   void (*RemoveListener)(struct __FuncChain *, FP_Func);
   void (*RemoveAllListener)(struct __FuncChain *);
-  void (*Invoke)();
+  void (*Invoke)(struct __FuncChain *);
 } FuncChain;
+// [+ End] 펑크 끝
 
 void FuncChain_Setting(FuncChain *Chain);
 
