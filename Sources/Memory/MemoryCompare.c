@@ -8,7 +8,8 @@
 bool MemoryCompare(void *Obj1, void *Obj2, Length Length) {
   if (GC_CreateCheck(Obj1, Obj2))
     return false;
-  if (Policey(Obj1, Not_MemoryCompare) || Policey(Obj1, Not_MemoryCompare))
+  if (Policey(Obj1, MemoryPolicey_NotMemoryCompare) ||
+      Policey(Obj1, MemoryPolicey_NotMemoryCompare))
     return false;
   if (GC_IndexOfExceptionCheck(Obj1, Length) ||
       GC_IndexOfExceptionCheck(Obj2, Length))

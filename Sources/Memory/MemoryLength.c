@@ -11,7 +11,7 @@ Length MemoryLength(void *Obj) {
     Warning("GC에서 생성된 메모리가 아닙니다. --> %p", info.Value);
     return 0;
   }
-  if (Policey(Obj, Not_MemoryLength))
+  if (Policey(Obj, MemoryPolicey_NotMemoryLength))
     return 0;
 
   return info.Length;

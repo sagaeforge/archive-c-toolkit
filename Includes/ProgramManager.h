@@ -10,15 +10,15 @@
 
 // clang-format off
 typedef enum {
-  None              = 0,
-  Const             = (1 << 0),
-  Not_MemoryRemove  = (1 << 1),
-  Not_MemorySet     = (1 << 2),
-  Not_MemoryCopy    = (1 << 3),
-  Not_MemoryMove    = (1 << 4),
-  Not_MemorySwap    = (1 << 5),
-  Not_MemoryCompare = (1 << 6),
-  Not_MemoryLength  = (1 << 7),
+  MemoryPolicey_None             = 0,
+  MemoryPolicey_Const            = (1 << 0),
+  MemoryPolicey_NotMemoryRemove  = (1 << 1),
+  MemoryPolicey_NotMemorySet     = (1 << 2),
+  MemoryPolicey_NotMemoryCopy    = (1 << 3),
+  MemoryPolicey_NotMemoryMove    = (1 << 4),
+  MemoryPolicey_NotMemorySwap    = (1 << 5),
+  MemoryPolicey_NotMemoryCompare = (1 << 6),
+  MemoryPolicey_NotMemoryLength  = (1 << 7),
 } MemoryPolicey;
 // clang-format on
 

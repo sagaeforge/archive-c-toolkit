@@ -5,36 +5,6 @@
 #include "ProgramManager.h"
 #include <stdlib.h>
 
-/*
-  [*] 관련 기능을 만들고 나서 수정될 가능성이 있는 함수들
-  [+] MemoryCreate
-  [+] MemoryRemove
-  [+] MemorySet
-  [+] MemoryCopy
-  [+] MemoryMove
-  [+] MemorySwap
-  [+] MemoryCompare
-  [+] MemoryLength
-
-  [*] 조건 확인에 대한 부분
-  [+] MemoryRemove - 메모리를 GC에서 할당했는가?
-  [+] MemorySet - 메모리를 GC에서 할당 했는가?
-  [+]           - 세팅할 크기가 Src의 크기보다 크다면
-  [+] MemorySwap  - 메모리를 GC에서 할당 했는가?
-  [+]             - 스왑할 메모리의 크기가 Src와 Data보다 크다면?
-  [+] MemoryCopy, MemoryMove  - 메모리를 GC에서 할당 했는가?
-  [+]                         - 스왑할 메모리의 크기가 Src와 Data보다 크다면?
-  [+] MemoryCompare - 메모리를 GC에서 할당 했는가?
-  [+]               - 검사할 메모리 크기가 할당한 크기보다 크다면
-  [+] MemoryLength - 메모리를 GC에서 할당 했는가?
-
-  [*] 추후 발표후에 추가 가능 기능
-  [+] Const
-  [-] ReadOnly
-  [-] GetPolish
-
-*/
-
 static MemoryPage *MemoryPage_Page();
 MemoryPage *MemoryPage_Get(Index Index);
 MemoryPage *MemoryPage_GetEmpty();
@@ -48,7 +18,7 @@ void Clear() {
       free(page->Datas[i].Value);
       page->Datas[i].Value = NULL;
       page->Datas[i].Length = 0;
-      page->Datas[i].Policey = None;
+      page->Datas[i].Policey = MemoryPolicey_None;
     }
 
     page = page->Next;
@@ -149,7 +119,7 @@ void GC_Append(void *ptr, Length Length) {
 
   page->Datas[page->UsedMemoryLength].Value = ptr;
   page->Datas[page->UsedMemoryLength].Length = Length;
-  page->Datas[page->UsedMemoryLength].Policey = None;
+  page->Datas[page->UsedMemoryLength].Policey = MemoryPolicey_None;
   page->UsedMemoryLength++;
   Manager.GarbageCollection.UsedMemoryLength++;
 }
@@ -213,6 +183,6 @@ void *MemoryConstCreate(Length Length) {
   void *ptr = Manager.GarbageCollection.Method.MemoryCreate(Length);
   if (ptr == NULL)
     return NULL;
-  Manager.GarbageCollection.Method.PolicyAppend(ptr, Const);
+  Manager.GarbageCollection.Method.PolicyAppend(ptr, MemoryPolicey_Const);
   return ptr;
 }

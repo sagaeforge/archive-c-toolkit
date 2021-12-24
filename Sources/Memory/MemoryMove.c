@@ -7,9 +7,10 @@
 void MemoryMove(void *Src, void *Data, Length Length) {
   if (GC_CreateCheck(Src, Data))
     return;
-  if (Policey(Src, Not_MemoryMove) || Policey(Data, Not_MemoryMove))
+  if (Policey(Src, MemoryPolicey_NotMemoryMove) ||
+      Policey(Data, MemoryPolicey_NotMemoryMove))
     return;
-  if (Policey(Src, Const))
+  if (Policey(Src, MemoryPolicey_Const))
     return;
   if (GC_IndexOfExceptionCheck(Src, Length) ||
       GC_IndexOfExceptionCheck(Data, Length))
