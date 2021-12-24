@@ -4,7 +4,7 @@ project(ProgramManager VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_Library(
+add_executable(
   ProgramManager
   Sources/Delegate.c
   Sources/ProgramManager.c
@@ -19,6 +19,8 @@ add_Library(
   Sources/Memory/MemoryRemove.c
   Sources/Memory/MemorySet.c 
   Sources/Memory/MemorySwap.c
+
+  Main.c
 )
 
 add_definitions( -DDEBUG )
