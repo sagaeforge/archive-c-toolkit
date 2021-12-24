@@ -24,7 +24,7 @@ add_executable(
 )
 
 add_definitions( -DDEBUG )
-target_include_directories(ProgramManager PUBLIC Includes/ Includes/Private/)
+target_include_directories(ProgramManager PUBLIC Includes/Public/ Includes/Private/)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
