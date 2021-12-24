@@ -9,6 +9,8 @@ void MemoryMove(void *Src, void *Data, Length Length) {
     return;
   if (Policey(Src, Not_MemoryMove) || Policey(Data, Not_MemoryMove))
     return;
+  if (Policey(Src, Const))
+    return;
   if (GC_IndexOfExceptionCheck(Src, Length) ||
       GC_IndexOfExceptionCheck(Data, Length))
     return;

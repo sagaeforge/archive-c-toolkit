@@ -158,6 +158,7 @@ void ProgramManager_Init() {
   // clang-format on
 
   Manager.GarbageCollection.Method.MemoryCreate = MemoryCreate;
+  Manager.GarbageCollection.Method.MemoryConstCreate = MemoryConstCreate;
   Manager.GarbageCollection.Method.MemoryRemove = MemoryRemove;
   Manager.GarbageCollection.Method.MemoryCompare = MemoryCompare;
   Manager.GarbageCollection.Method.MemorySet = MemorySet;

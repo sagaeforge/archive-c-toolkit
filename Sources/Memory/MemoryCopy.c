@@ -9,8 +9,12 @@ void MemoryCopy(void *Src, void *Data, Length Length) {
     return;
   if (Policey(Src, Not_MemoryCopy) || Policey(Data, Not_MemoryCopy))
     return;
+  if (Policey(Src, Const))
+    return;
   if (GC_IndexOfExceptionCheck(Src, Length) ||
       GC_IndexOfExceptionCheck(Data, Length))
+    return;
+  if (Policey(Src, Const))
     return;
 
   char *a = (char *)Src;

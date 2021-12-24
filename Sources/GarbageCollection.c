@@ -48,7 +48,9 @@ void Clear() {
       free(page->Datas[i].Value);
       page->Datas[i].Value = NULL;
       page->Datas[i].Length = 0;
+      page->Datas[i].Policey = None;
     }
+
     page = page->Next;
   }
 }
@@ -206,4 +208,11 @@ bool GC_IndexOfExceptionCheck(void *Obj, Length Length) {
   if (info.Length < Length)
     return true;
   return false;
+}
+void *MemoryConstCreate(Length Length) {
+  void *ptr = Manager.GarbageCollection.Method.MemoryCreate(Length);
+  if (ptr == NULL)
+    return NULL;
+  Manager.GarbageCollection.Method.PolicyAppend(ptr, Const);
+  return ptr;
 }

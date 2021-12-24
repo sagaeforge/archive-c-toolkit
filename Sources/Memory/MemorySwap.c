@@ -22,6 +22,8 @@ void MemorySwap(void *Src, void *Data, Length Length) {
     return;
   if (Policey(Src, Not_MemorySwap) || Policey(Data, Not_MemorySwap))
     return;
+  if (Policey(Src, Const))
+    return;
   if (GC_IndexOfExceptionCheck(Src, Length) ||
       GC_IndexOfExceptionCheck(Data, Length))
     return;

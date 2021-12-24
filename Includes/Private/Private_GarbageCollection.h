@@ -14,5 +14,6 @@ bool Policey(void *Obj, MemoryPolicey Policey);
 void Policey_Append(void *Obj, MemoryPolicey Policey);
 void Policey_Remove(void *Obj, MemoryPolicey Policey);
 bool GC_IndexOfExceptionCheck(void *Obj, Length Length);
+void *MemoryConstCreate(Length Length);
 
 #endif

@@ -86,21 +86,22 @@ struct ProgramManager {
     /** @brief 종료 단계 */
     struct {
       // clang-format off
-      void *(*MemoryCreate)  (Length);
-      void  (*MemoryRemove)  (void **);
-      void  (*MemorySet)     (void *, int, Length, Length);
-      void  (*MemoryCopy)    (void *, void *, Length);
-      void  (*MemoryMove)    (void *, void *, Length);
-      void  (*MemorySwap)    (void *, void *, Length);
-      bool  (*MemoryCompare) (void *, void *, Length);
-      Length (*MemoryLength) (void *);
+      void *(*MemoryCreate)       (Length);
+      void *(*MemoryConstCreate)  (Length);
+      void  (*MemoryRemove)       (void **);
+      void  (*MemorySet)          (void *, int, Length, Length);
+      void  (*MemoryCopy)         (void *, void *, Length);
+      void  (*MemoryMove)         (void *, void *, Length);
+      void  (*MemorySwap)         (void *, void *, Length);
+      bool  (*MemoryCompare)      (void *, void *, Length);
+      Length (*MemoryLength)      (void *);
       
-      void  (*Clear)         ();
-      void *(*Memory)        (MemoryPosition);
-      MemoryInfo (*Info)     (void *);
-      bool (*Policy)         (void *, MemoryPolicey);
-      void (*PolicyAppend)   (void *, MemoryPolicey);
-      void (*PolicyRemove)   (void *, MemoryPolicey);
+      void  (*Clear)              ();
+      void *(*Memory)             (MemoryPosition);
+      MemoryInfo (*Info)          (void *);
+      bool (*Policy)              (void *, MemoryPolicey);
+      void (*PolicyAppend)        (void *, MemoryPolicey);
+      void (*PolicyRemove)        (void *, MemoryPolicey);
       // clang-format on
     } Method;
   } GarbageCollection;
