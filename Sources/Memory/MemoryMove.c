@@ -7,6 +7,11 @@
 void MemoryMove(void *Src, void *Data, Length Length) {
   if (GC_CreateCheck(Src, Data))
     return;
+  if (Policey(Src, Not_MemoryMove) || Policey(Data, Not_MemoryMove))
+    return;
+  if (GC_IndexOfExceptionCheck(Src, Length) ||
+      GC_IndexOfExceptionCheck(Data, Length))
+    return;
 
   char *buf = (char *)malloc(Length);
   if (buf == NULL) {

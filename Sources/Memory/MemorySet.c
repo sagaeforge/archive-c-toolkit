@@ -9,7 +9,10 @@ void MemorySet(void *Src, int value, Length WordSize, Length Length) {
   MemoryInfo info = Info(Src);
   if (!info.IsFounded)
     Warning("GC에서 생성된 메모리가 아닙니다. --> %p", info.Value);
-
+  if (Policey(Src, Not_MemorySet))
+    return;
+  if (GC_IndexOfExceptionCheck(Src, Length))
+    return;
   if (WordSize == 0 || WordSize == 3 || WordSize > 4)
     return;
 

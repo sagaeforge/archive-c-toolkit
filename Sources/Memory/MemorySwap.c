@@ -20,6 +20,11 @@ static void Swap(void *ptr1, void *ptr2, Length length) {
 void MemorySwap(void *Src, void *Data, Length Length) {
   if (GC_CreateCheck(Src, Data))
     return;
+  if (Policey(Src, Not_MemorySwap) || Policey(Data, Not_MemorySwap))
+    return;
+  if (GC_IndexOfExceptionCheck(Src, Length) ||
+      GC_IndexOfExceptionCheck(Data, Length))
+    return;
 
   Swap(Src, Data, Length);
 }

@@ -78,6 +78,7 @@ MemoryInfo Info(void *Obj) {
       if (page->Datas[pc].Value == Obj) {
         ret.IsFounded = true;
         ret.Length = page->Datas[pc].Length;
+        ret.Policy = page->Datas[pc].Policey;
         ret.Position.MemoryIndex = pc;
         ret.Position.PageIndex = i;
         ret.Value = Obj;
@@ -146,6 +147,7 @@ void GC_Append(void *ptr, Length Length) {
 
   page->Datas[page->UsedMemoryLength].Value = ptr;
   page->Datas[page->UsedMemoryLength].Length = Length;
+  page->Datas[page->UsedMemoryLength].Policey = None;
   page->UsedMemoryLength++;
   Manager.GarbageCollection.UsedMemoryLength++;
 }
@@ -179,5 +181,29 @@ bool GC_CreateCheck(void *Obj1, void *Obj2) {
       Warning("GC에서 생성된 메모리가 아닙니다. --> %p", obj2_info.Value);
     return true;
   }
+  return false;
+}
+
+bool Policey(void *Obj, MemoryPolicey Policey) {
+  MemoryInfo info = Manager.GarbageCollection.Method.Info(Obj);
+  return info.Policy & Policey;
+}
+
+void Policey_Append(void *Obj, MemoryPolicey Policey) {
+  MemoryInfo info = Manager.GarbageCollection.Method.Info(Obj);
+  MemoryPage *page = MemoryPage_Get(info.Position.PageIndex);
+  page->Datas[info.Position.MemoryIndex].Policey |= Policey;
+}
+
+void Policey_Remove(void *Obj, MemoryPolicey Policey) {
+  MemoryInfo info = Manager.GarbageCollection.Method.Info(Obj);
+  MemoryPage *page = MemoryPage_Get(info.Position.PageIndex);
+  page->Datas[info.Position.MemoryIndex].Policey &= ~Policey;
+}
+
+bool GC_IndexOfExceptionCheck(void *Obj, Length Length) {
+  MemoryInfo info = Manager.GarbageCollection.Method.Info(Obj);
+  if (info.Length < Length)
+    return true;
   return false;
 }

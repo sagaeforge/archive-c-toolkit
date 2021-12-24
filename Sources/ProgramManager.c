@@ -170,6 +170,10 @@ void ProgramManager_Init() {
   Manager.GarbageCollection.Method.Info = Info;
   Manager.GarbageCollection.Method.Memory = Memory;
 
+  Manager.GarbageCollection.Method.Policy = Policey;
+  Manager.GarbageCollection.Method.PolicyAppend = Policey_Append;
+  Manager.GarbageCollection.Method.PolicyRemove = Policey_Remove;
+
   Manager.GarbageCollection.UsedMemoryLength = 0;
   Manager.GarbageCollection.UsedMemoryPageLength = 1;
 

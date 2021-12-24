@@ -8,6 +8,20 @@
 
 #pragma pack(push, 1)
 
+// clang-format off
+typedef enum {
+  None              = 0,
+  Const             = (1 << 0),
+  Not_MemoryRemove  = (1 << 1),
+  Not_MemorySet     = (1 << 2),
+  Not_MemoryCopy    = (1 << 3),
+  Not_MemoryMove    = (1 << 4),
+  Not_MemorySwap    = (1 << 5),
+  Not_MemoryCompare = (1 << 6),
+  Not_MemoryLength  = (1 << 7),
+} MemoryPolicey;
+// clang-format on
+
 typedef struct {
   Index PageIndex;
   Index MemoryIndex;
@@ -18,6 +32,7 @@ typedef struct {
   void *Value;
   Length Length;
   MemoryPosition Position;
+  MemoryPolicey Policy;
 } MemoryInfo;
 
 /** @brief 메모리 페이지 */
@@ -30,6 +45,8 @@ typedef struct _MemoryPage {
     void *Value;
     /** @brief 사용중인 메모리 크기 */
     Length Length;
+    /** @brief 사용중인 메모리 정책 */
+    MemoryPolicey Policey;
   } Datas[MemoryMaxLength];
   /** @brief 다음 메모리 정보 집합 */
   struct _MemoryPage *Next;
@@ -81,9 +98,11 @@ struct ProgramManager {
       void  (*Clear)         ();
       void *(*Memory)        (MemoryPosition);
       MemoryInfo (*Info)     (void *);
+      bool (*Policy)         (void *, MemoryPolicey);
+      void (*PolicyAppend)   (void *, MemoryPolicey);
+      void (*PolicyRemove)   (void *, MemoryPolicey);
       // clang-format on
     } Method;
-
   } GarbageCollection;
   /** @brief 종료 단계 */
   struct {
