@@ -4,15 +4,25 @@ project(ProgramManager VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(
+add_Library(
   ProgramManager
   Sources/Delegate.c
   Sources/ProgramManager.c
   Sources/GarbageCollection.c
-  Main.c
+  
+  # Sources/Memory
+  Sources/Memory/MemoryCompare.c
+  Sources/Memory/MemoryCopy.c
+  Sources/Memory/MemoryCreate.c
+  Sources/Memory/MemoryLength.c
+  Sources/Memory/MemoryMove.c
+  Sources/Memory/MemoryRemove.c
+  Sources/Memory/MemorySet.c 
+  Sources/Memory/MemorySwap.c
 )
 
-target_include_directories(ProgramManager PUBLIC Includes/)
+add_definitions( -DDEBUG )
+target_include_directories(ProgramManager PUBLIC Includes/ Includes/Private/)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

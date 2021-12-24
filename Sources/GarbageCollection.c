@@ -1,17 +1,11 @@
 
 #include "GarbageCollection.h"
 #include "Exception.h"
+#include "Private_GarbageCollection.h"
+#include "ProgramManager.h"
 #include <stdlib.h>
 
 /*
-  [*] 파라미터 사양이 변경될 수 있음.
-  [+] MemorySet
-  [+] MemoryCopy
-  [+] MemoryMove
-  [+] MemorySwap
-  [+] MemoryCompare
-  [+] MemoryLength
-
   [*] 관련 기능을 만들고 나서 수정될 가능성이 있는 함수들
   [+] MemoryCreate
   [+] MemoryRemove
@@ -40,107 +34,150 @@
   [-] GetPolish
 
 */
-static void Swap(void *ptr1, void *ptr2, Length length) {
-  char *a = (char *)ptr1;
-  char *b = (char *)ptr2;
 
-  int i = 0;
-  char t = '\0';
-  while (i < length) {
-    t = *a;
-    *a = *b;
-    *b = t;
-    i++, a++, b++;
+static MemoryPage *MemoryPage_Page();
+MemoryPage *MemoryPage_Get(Index Index);
+MemoryPage *MemoryPage_GetEmpty();
+
+void Clear() {
+  MemoryPage *page = &Manager.GarbageCollection.Pages;
+
+  while (page != NULL) {
+    int i;
+    for (i = 0; i < page->UsedMemoryLength; i++) {
+      free(page->Datas[i].Value);
+      page->Datas[i].Value = NULL;
+      page->Datas[i].Length = 0;
+    }
+    page = page->Next;
   }
 }
+void *Memory(MemoryPosition Position) {
+  MemoryPage *page = MemoryPage_Get(Position.PageIndex);
+  return page->Datas[Position.MemoryIndex].Value;
+}
 
-void *MemoryCreate(Length Length) {
-  // TODO 조건 확인
-  void *ptr = malloc(Length);
-  if (ptr == NULL)
-    Warning("지정된 메모리를 생성할 수 없습니다.");
+MemoryInfo Info(void *Obj) {
+  MemoryPage *page = &Manager.GarbageCollection.Pages;
+  MemoryInfo ret = {
+      0,
+  };
+
+  if (Obj == NULL)
+    return ret;
+
+  int i;
+  for (i = 0; page != NULL; i++) {
+    int pl = 0;
+    int pr = page->UsedMemoryLength;
+    int pc = 0;
+
+    do {
+      pc = (pl + pr) / 2;
+
+      if (page->Datas[pc].Value == Obj) {
+        ret.IsFounded = true;
+        ret.Length = page->Datas[pc].Length;
+        ret.Position.MemoryIndex = pc;
+        ret.Position.PageIndex = i;
+        ret.Value = Obj;
+        return ret;
+      } else if (page->Datas[pc].Value < Obj)
+        pl = pc + 1;
+      else
+        pr = pc - 1;
+
+    } while (pl <= pr);
+    page = page->Next;
+  }
+  return ret;
+}
+
+static MemoryPage *MemoryPage_Page() {
+  MemoryPage *ptr = malloc(sizeof(MemoryPage));
+  if (ptr == NULL) {
+    Warning("메모리 페이지를 생성할 수 없습니다.");
+    return NULL;
+  }
+
+  ptr->Next = NULL;
+  ptr->UsedMemoryLength = 0;
+  int i;
+  for (i = 0; i < MemoryMaxLength; i++) {
+    ptr->Datas[i].Value = NULL;
+    ptr->Datas[i].Length = 0;
+  }
+
+  Manager.GarbageCollection.UsedMemoryPageLength++;
   return ptr;
 }
-void MemoryRemove(void **ptr) {
-  // TODO 조건 확인
 
-  free((*ptr));
-  (*ptr) = NULL;
+MemoryPage *MemoryPage_Get(Index Index) {
+  if (Manager.GarbageCollection.UsedMemoryPageLength < Index)
+    return NULL;
+
+  MemoryPage *page = &Manager.GarbageCollection.Pages;
+  int i = 0;
+  while (i < Index) {
+    page = page->Next;
+    i++;
+  }
+  return page;
 }
-void MemorySet(void *Src, int value, Length WordSize, Length Length) {
-  // TODO 조건 확인
+MemoryPage *MemoryPage_GetEmpty() {
+  MemoryPage *page = &Manager.GarbageCollection.Pages;
+  int i = 0;
+  while (page != NULL) {
+    if (page->UsedMemoryLength < MemoryMaxLength)
+      return page;
+    page = page->Next;
+  }
 
-  if (WordSize == 0 || WordSize == 3 || WordSize > 4)
+  page = &Manager.GarbageCollection.Pages;
+  while (page->Next != NULL)
+    page = page->Next;
+
+  page->Next = MemoryPage_Page();
+  return page->Next;
+}
+
+void GC_Append(void *ptr, Length Length) {
+  MemoryPage *page = MemoryPage_GetEmpty();
+
+  page->Datas[page->UsedMemoryLength].Value = ptr;
+  page->Datas[page->UsedMemoryLength].Length = Length;
+  page->UsedMemoryLength++;
+  Manager.GarbageCollection.UsedMemoryLength++;
+}
+
+void GC_Remove(void *ptr) {
+  MemoryInfo info = Info(ptr);
+  if (!info.IsFounded)
     return;
 
-  Length *= WordSize;
-  char *a = (char *)Src;
-  char *b = (char *)&value;
-  const char *backup = b;
-  int i = 0, j = 0;
-  while (i < Length) {
-    while (j < WordSize) {
-      *a = *b;
-      a++, b++, i++, j++;
-    }
-    j = 0;
-    b = backup;
+  MemoryPage *page = MemoryPage_Get(info.Position.PageIndex);
+  page->Datas[info.Position.MemoryIndex].Value = NULL;
+  page->Datas[info.Position.MemoryIndex].Length = 0;
+
+  page->UsedMemoryLength--;
+  Manager.GarbageCollection.UsedMemoryLength--;
+
+  int i;
+  for (i = info.Position.MemoryIndex; i < page->UsedMemoryLength; i++) {
+    MemorySwap(&page->Datas[i], &page->Datas[i + 1], sizeof(page->Datas[i]));
   }
 }
-void MemorySwap(void *Src, void *Data, Length Length) {
-  // TODO 조건 확인
 
-  Swap(Src, Data, Length);
+bool GC_CreateCheck(void *Obj1, void *Obj2) {
+  MemoryInfo obj1_info = Manager.GarbageCollection.Method.Info(Obj1);
+  MemoryInfo obj2_info = Manager.GarbageCollection.Method.Info(Obj2);
+
+  if (!obj1_info.IsFounded || !obj2_info.IsFounded) {
+    if (obj1_info.IsFounded)
+      Warning("GC에서 생성된 메모리가 아닙니다. --> %p", obj1_info.Value);
+    else
+      Warning("GC에서 생성된 메모리가 아닙니다. --> %p", obj2_info.Value);
+    return true;
+  }
+  return false;
 }
-void MemoryCopy(void *Src, void *Data, Length Length) {
-  // TODO 조건 확인
-
-  char *a = (char *)Src;
-  char *b = (char *)Data;
-
-  int i = 0;
-  while (i < Length) {
-    *a = *b;
-    i++, a++, b++;
-  }
-}
-void MemoryMove(void *Src, void *Data, Length Length) {
-  // TODO 조건 확인
-
-  char *a = (char *)Src;
-  char *b = (char *)Data;
-  const char *backup = b;
-  char *buf = (char *)malloc(Length);
-  if (buf == NULL) {
-    Warning("버퍼 메모리를 확보할 수 없었습니다.");
-    return;
-  }
-
-  int i = 0;
-  while (i < Length) {
-    *buf = *b;
-    i++, buf++, b++;
-  }
-
-  i = 0;
-  while (i < Length) {
-    *a = *buf;
-    i++, a++, buf++;
-  }
-
-  free(buf);
-}
-bool MemoryCompare(void *Obj1, void *Obj2, Length Length) {
-  // TODO 조건 확인
-
-  char *a = (char *)Obj1;
-  char *b = (char *)Obj2;
-  int i = 0;
-  while (i < Length) {
-    if (*a != *b)
-      return false;
-    a++, b++, i++;
-  }
-  return true;
-}
-Length MemoryLength(void *Obj) { return 0; }

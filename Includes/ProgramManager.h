@@ -4,7 +4,21 @@
 #include "DataTypes.h"
 #include "Delegate.h"
 
-#define MemoryMaxLength 256
+#define MemoryMaxLength 32
+
+#pragma pack(push, 1)
+
+typedef struct {
+  Index PageIndex;
+  Index MemoryIndex;
+} MemoryPosition;
+
+typedef struct {
+  bool IsFounded;
+  void *Value;
+  Length Length;
+  MemoryPosition Position;
+} MemoryInfo;
 
 /** @brief 메모리 페이지 */
 typedef struct _MemoryPage {
@@ -62,7 +76,11 @@ struct ProgramManager {
       void  (*MemoryMove)    (void *, void *, Length);
       void  (*MemorySwap)    (void *, void *, Length);
       bool  (*MemoryCompare) (void *, void *, Length);
-      Length (*MemoryLength)  (void *);
+      Length (*MemoryLength) (void *);
+      
+      void  (*Clear)         ();
+      void *(*Memory)        (MemoryPosition);
+      MemoryInfo (*Info)     (void *);
       // clang-format on
     } Method;
 
@@ -70,11 +88,12 @@ struct ProgramManager {
   /** @brief 종료 단계 */
   struct {
     // clang-format off
-    void (*ProgramStart) ();
-    void (*ProgramQuit)  ();
+    void (*ProgramStart)();
+    void (*ProgramQuit) ();
     // clang-format on
   } Method;
 };
+#pragma pack(pop)
 extern struct ProgramManager Manager;
 
 void ProgramManager_Init();

@@ -4,24 +4,37 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef DEBUG
+#define Debug(format, args...)                                                 \
+  do {                                                                         \
+    fprintf(stderr, "\n ====== DEBUG ====== \n");                              \
+    fprintf(stderr, "[%s:%d]:%s()\n", __FILE__, __LINE__, __FUNCTION__);       \
+    fprintf(stderr, format, ##args);                                           \
+    fprintf(stderr, "\n");                                                     \
+  } while (0)
+
 #define Warning(format, args...)                                               \
   do {                                                                         \
-    char *FormatAry = malloc(strlen(format) + 16);                             \
-    strcat(FormatAry, "Warning >>> ");                                         \
-    strcat(FormatAry, format);                                                 \
-    strcat(FormatAry, "\n");                                                   \
+    Debug("오류 위치 검사: ");                                                 \
+    fprintf(stderr, "Warning >>> ");                                           \
     fprintf(stderr, format, ##args);                                           \
-    free(FormatAry);                                                           \
+    fprintf(stderr, "\n");                                                     \
   } while (0)
+
+#else
+#define Warning(format, args...)                                               \
+  do {                                                                         \
+    printf("Warning >>> ");                                                    \
+    fprintf(stderr, format, ##args);                                           \
+    printf("\n");                                                              \
+  } while (0)
+#endif
 
 #define Error(format, args...)                                                 \
   do {                                                                         \
-    char *FormatAry = malloc(strlen(format) + 15);                             \
-    strcat(FormatAry, "Error >>> ");                                           \
-    strcat(FormatAry, format);                                                 \
-    strcat(FormatAry, "\n");                                                   \
+    printf("Error >>> ");                                                      \
     fprintf(stderr, format, ##args);                                           \
-    free(FormatAry);                                                           \
+    printf("\n");                                                              \
     exit(1);                                                                   \
   } while (0)
 

@@ -2,6 +2,7 @@
 #include "ProgramManager.h"
 #include "Exception.h"
 #include "GarbageCollection.h"
+#include "Private_GarbageCollection.h"
 #include <stdlib.h>
 
 struct ProgramManager Manager;
@@ -107,6 +108,23 @@ static void ProgramManager_ProgramQuit() {
   Manager.Start.RemoveAllListener();
   Manager.Quit.RemoveAllListener();
 
+  Manager.GarbageCollection.Method.Clear();
+  int i = 0;
+  MemoryPage *page = Manager.GarbageCollection.Pages.Next;
+  if (Manager.GarbageCollection.UsedMemoryPageLength != 1) {
+    MemoryPage **Temp =
+        malloc(sizeof(MemoryPage) *
+               (Manager.GarbageCollection.UsedMemoryPageLength - 1));
+
+    while (page != NULL) {
+      Temp[i++] = page;
+      page = page->Next;
+    }
+    for (i = 0; i < Manager.GarbageCollection.UsedMemoryPageLength - 1; i++)
+      free(Temp[i]);
+    free(Temp);
+  }
+
   exit(0);
 }
 
@@ -147,6 +165,13 @@ void ProgramManager_Init() {
   Manager.GarbageCollection.Method.MemoryLength = MemoryLength;
   Manager.GarbageCollection.Method.MemoryMove = MemoryMove;
   Manager.GarbageCollection.Method.MemorySwap = MemorySwap;
+
+  Manager.GarbageCollection.Method.Clear = Clear;
+  Manager.GarbageCollection.Method.Info = Info;
+  Manager.GarbageCollection.Method.Memory = Memory;
+
+  Manager.GarbageCollection.UsedMemoryLength = 0;
+  Manager.GarbageCollection.UsedMemoryPageLength = 1;
 
   Manager.Method.ProgramStart = PrograManager_ProgramStart;
   Manager.Method.ProgramQuit = ProgramManager_ProgramQuit;
