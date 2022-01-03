@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/ProgramManager/Includes",
+                "${workspaceFolder}/ProgramManager/Includes/**",
+                "${workspaceFolder}/ProgramManager/Module/Exception/Includes",
+                "${workspaceFolder}/ProgramManager/Module/Exception/Includes/Private/",
+                "${workspaceFolder}/ProgramManager/Module/Exception/Includes/**",
+                "${workspaceFolder}/ProgramManager/Module/GarbageCollection/Includes",
+                "${workspaceFolder}/ProgramManager/Module/GarbageCollection/Includes/Private/",
+                "${workspaceFolder}/ProgramManager/Module/GarbageCollection/Includes/**",
+                "${workspaceFolder}/ProgramManager/Module/InputSystem/Includes",
+                "${workspaceFolder}/ProgramManager/Module/InputSystem/Includes/Private/",
+                "${workspaceFolder}/ProgramManager/Module/InputSystem/Includes/**",
+                "${workspaceFolder}/ProgramManager/Module/ProcessEvent/Includes",
+                "${workspaceFolder}/ProgramManager/Module/ProcessEvent/Includes/**",
+                "${workspaceFolder}/ProgramManager/Module/ProcessEvent/Includes/Private"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

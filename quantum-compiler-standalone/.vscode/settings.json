@@ -1,0 +1,13 @@
+{
+  "C_Cpp.errorSquiggles": "Enabled",
+  "files.associations": {
+    "*.vstxt": "ini",
+    "processevent.h": "c",
+    "datatypes_processevent.h": "c",
+    "stdlib.h": "c",
+    "programmanager.h": "c",
+    "private_processevent.h": "c",
+    "exception.h": "c",
+    "datatypes_garbagecollection.h": "c"
+  }
+}
