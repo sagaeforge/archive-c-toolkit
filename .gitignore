@@ -1,0 +1,21 @@
+# ── 빌드 산출물
+build/
+Build/
+out/
+bin/
+obj/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+*.o
+*.obj
+*.exe
+*.pdb
+*.ilk
+
+# ── 에디터/OS
+.vs/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
