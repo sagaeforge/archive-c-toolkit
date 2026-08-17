@@ -5,8 +5,7 @@ include(CTest)
 enable_testing()
 
 add_library(Operator Operator.c OperatorTable.c)
-target_include_directories(Operator PUBLIC ../../Includes/Public/)
-target_include_directories(Operator PUBLIC ../../Includes/Private/)
+target_include_directories(Operator PUBLIC ../../Includes/Public ../../Includes/Private)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

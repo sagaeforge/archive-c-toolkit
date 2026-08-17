@@ -23,8 +23,7 @@ add_library(
   MemorySearch.c
 )
 
-target_include_directories(GarbageCollection PUBLIC ../../Includes/Public/)
-target_include_directories(GarbageCollection PUBLIC ../../Includes/Private/)
+target_include_directories(GarbageCollection PUBLIC ../../Includes/Public ../../Includes/Private)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -1,6 +1,6 @@
 
 #include "Operator.h"
-#include "GarbageCollection.h"
+#include "_GarbageCollection.h"
 
 static FuncNode *FuncNode_Search(const char *DataType) {
   if (FuncNodeTableLength == 0)

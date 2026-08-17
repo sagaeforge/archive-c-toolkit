@@ -1,6 +1,8 @@
 #ifndef __NLB_GARBAGE_COLLECTION_PRIVATE__
 #define __NLB_GARBAGE_COLLECTION_PRIVATE__
 
+#include "GarbageCollection.h"
+
 #include "DataTypes.h"
 
 typedef struct GCMemoryIndex {
