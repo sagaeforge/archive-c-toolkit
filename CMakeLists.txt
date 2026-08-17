@@ -7,8 +7,8 @@ enable_testing()
 add_library(
   NugungaModule
   
-  Sources/GarbageCollection/Iterator/Iterator_GC.c
-  Sources/GarbageCollection/Iterator/Iterator_Page.c
+  init.c
+  Sources/List/List.c
 )
 
 target_include_directories(NugungaModule PUBLIC Includes/Public Includes/Private )
