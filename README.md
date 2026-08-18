@@ -1,6 +1,6 @@
 # archive-c-toolkit
 
-2021–2022년에 만든 **C 라이브러리 · 자료구조 · 런타임** 습작 모음입니다.
+2021–2024년에 만든 **C · C++ 라이브러리 · 자료구조 · 런타임** 습작 모음입니다.
 가비지 컬렉터, 문자열 라이브러리, 동적 메모리 매니저를 직접 구현해보던 시기의 기록입니다.
 
 ## 구성
@@ -26,6 +26,9 @@
 | [`gc-rebuild/`](gc-rebuild) | 가비지 컬렉터 재작성 | 1 | 2021.10 |
 | [`tuple/`](tuple) | C 튜플 구현 | 1 | 2021.10 |
 | [`quantum-compiler-standalone/`](quantum-compiler-standalone) | Quantum 컴파일러 분리본 | 1 | 2022.01 |
+| [`make-library/`](make-library) | 포트폴리오용 C++ JSON 라이브러리 | 21 | 2022.03 |
+| [`advanced-calc/`](advanced-calc) | C++ 계산기 | 5 | 2022.04 |
+| [`ini-parser/`](ini-parser) | C++ INI 파서 — Comment / Field / Line / Section 분리 | 1 | 2024.03 |
 
 ## 히스토리 보존 방식
 
@@ -42,13 +45,16 @@ git show legacy/<프로젝트>/<브랜치>          # 편입 직전 최종 상�
 > 서브트리 편입에 `-s ours` 병합을 써서 main 쪽 경로 히스토리에는 병합 커밋만 남기 때문입니다.
 > **원본 커밋은 전부 이 저장소 안에 그대로 있고, 위의 `legacy/*` 태그로 접근합니다.**
 
-보존된 태그 14개:
+보존된 태그 17개:
 
 ```
+  legacy/advanced-calc/master
   legacy/delegate-test/main
   legacy/delegate-test/tag/snapshot/laptop/main
   legacy/garbage-collection/main
   legacy/garbage-collection/tag/snapshot/laptop/main
+  legacy/ini-parser/main
+  legacy/make-library/master
   legacy/nlb-utility/main
   legacy/nugunga-module/main
   legacy/nugunga-module/snapshot/laptop
